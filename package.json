@@ -1,0 +1,17 @@
+{
+  "name": "node-js-project-1",
+  "version": "1.0.0",
+  "description": "rest api",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "javscript"
+  ],
+  "author": "Raza A",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
