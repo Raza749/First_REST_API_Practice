@@ -10,45 +10,57 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use((req, res, next) => {
+    console.log("Hello from middleware 1 ");
+    // return res.send("HELLO from the middleware 1");
+    req.myUserName = "Raza A";
+    next();
+});
+
+app.use((req,res,next)=>{
+    console.log("Hello from middleware 2",req.myUserName);
+    next();
+})
+
 //Routes
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+  res.send("Hello World!");
 });
 
 app.get("/api/users", (req, res) => {
-    res.json(users);
+    console.log(object)
+  res.json(users);
 });
 
 app.get("/users", (req, res) => {
-    const html = `
+  const html = `
         <ul>
             ${users.map((user) => `<li>${user.first_name}</li>`).join("")}
         </ul>
     `;
-    res.send(html);
+  res.send(html);
 });
 
 app.get("/api/users/:id", (req, res) => {
-    const id = +req.params.id;
-    const user = users.find((user) => user.id === id);
-    res.json(user);
+  const id = +req.params.id;
+  const user = users.find((user) => user.id === id);
+  res.json(user);
 });
 
-// POST 
+// POST
 app.post("/api/users", (req, res) => {
-    const body = req.body;
-    users.push({ ...body, id: users.length + 1 });
-    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
-        if (err) {
-            console.error("Error writing to file: ", err);
-        } else {
-            res.json({ status: "PENGING" });
-        }
-    });
+  const body = req.body;
+  users.push({ ...body, id: users.length + 1 });
+  fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+    if (err) {
+      console.error("Error writing to file: ", err);
+    } else {
+      res.json({ status: "PENGING" });
+    }
+  });
 });
-
 
 // Start the server
 app.listen(PORT, (req, res) => {
-    console.log(`Server Started at the port ${PORT}`);
+  console.log(`Server Started at the port ${PORT}`);
 });
